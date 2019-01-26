@@ -1,0 +1,48 @@
+{
+  "name": "tuey",
+  "version": "0.1.0",
+  "description": "convenient devops tools",
+  "main": "lib/index",
+  "types": "lib/index",
+  "bin": {
+    "doctest": "./bin/tuey"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zahfox/tuey"
+  },
+  "scripts": {
+    "build": "tsc --p ./tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "postversion": "git push && git push --tags",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "test": "jest --config jestconfig.json",
+    "version": "npm run format && git add -A src"
+  },
+  "keywords": [
+    "tuey",
+    "convenient",
+    "devops",
+    "tools",
+    "typescript"
+  ],
+  "author": "William McCullough",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "fs-extra": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.4",
+    "@types/jest": "^23.3.13",
+    "@types/node": "^10.12.18",
+    "prettier": "^1.16.1",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.4"
+  }
+}
