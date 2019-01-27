@@ -57,13 +57,11 @@ export namespace UI {
         return (screen: Widgets.Screen, page: number) => {
           const grid = new contrib.grid({ rows: 12, cols: 12, screen })
 
-          const topBox = grid.set(0, 0, 6, 12, blessed.box, {
+          grid.set(0, 0, 6, 12, blessed.box, {
             parent: screen,
             content: 'Top',
             style: defaultBoxStyle
           })
-
-          topBox.focus()
 
           grid.set(6, 0, 6, 12, blessed.box, { parent: screen, content: 'Bottom', style: defaultBoxStyle })
         }
