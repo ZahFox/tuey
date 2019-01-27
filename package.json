@@ -12,7 +12,7 @@
     "url": "git+https://github.com/zahfox/tuey"
   },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "tsc-watch --onSuccess \"node ./lib/index.js\"",
     "build": "tsc --p ./tsconfig.json",
     "check": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
@@ -51,10 +51,10 @@
     "@types/reflect-metadata": "^0.1.0",
     "@types/winston": "^2.4.4",
     "jest": "^24.0.0",
-    "nodemon": "^1.18.9",
     "prettier": "^1.16.1",
     "ts-jest": "^23.10.5",
     "ts-node": "^8.0.2",
+    "tsc-watch": "^1.1.34",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.4"
