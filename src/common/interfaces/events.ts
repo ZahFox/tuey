@@ -1,16 +1,23 @@
 export enum EventType {
+  /* ~~~ Input Events ~~~ */
   NONE,
   KEY_PRESSED,
   KEY_RELEASED,
   MOUSE_BUTTON_PRESSED,
   MOUSE_BUTTON_RELEASED,
   MOUSE_MOVED,
-  MOUSE_SCROLLED
+  MOUSE_SCROLLED,
+
+  /* ~~~ UI Events ~~~ */
+  NAVIGATION_PAGE_CHANGED,
+  SCREEN_INITIALIZED
 }
 
 export interface EventBase {
   type: EventType
 }
+
+/* ~~~ Input Events ~~~ */
 
 export interface NoneEvent extends EventBase {
   type: EventType.NONE
@@ -48,6 +55,18 @@ export interface MouseScrolledEvent extends EventBase {
   yOffset: number
 }
 
+/* ~~~ UI Events ~~~ */
+
+export interface NavigationPageChangedEvent extends EventBase {
+  type: EventType.NAVIGATION_PAGE_CHANGED
+  lastPage: number
+  currentPage: number
+}
+
+export interface ScreenInitializedEvent extends EventBase {
+  type: EventType.SCREEN_INITIALIZED
+}
+
 export type Event =
   | NoneEvent
   | KeyPressedEvent
@@ -56,3 +75,5 @@ export type Event =
   | MouseButtonReleasedEvent
   | MouseMovedEvent
   | MouseScrolledEvent
+  | NavigationPageChangedEvent
+  | ScreenInitializedEvent

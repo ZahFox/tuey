@@ -2,6 +2,9 @@ import * as blessed from 'blessed'
 import { Widgets } from 'blessed'
 import * as contrib from 'blessed-contrib'
 
+import { Events } from '../events'
+
+import { EventType } from '../common'
 import { defaultBoxStyle } from './defaults'
 import { navigation, Navigation } from './navigation'
 
@@ -18,20 +21,17 @@ export namespace UI {
   }
 
   export interface UIOptions {
+    eventBus: Events.EventBus
     log?: (message: string) => void
   }
 
-  export function init({ log }: UIOptions) {
-    if (!log) {
-      log = () => {}
-    }
-
+  export function init({ eventBus }: UIOptions) {
     const screen = blessed.screen({
       autoPadding: true,
       smartCSR: true
     })
 
-    log('Screen Initialized')
+    eventBus.publish({ type: EventType.SCREEN_INITIALIZED })
 
     screen.key(['escape', 'q', 'C-c'], (ch, key) => {
       return process.exit(0)
@@ -42,6 +42,7 @@ export namespace UI {
     const uiNavigation: Navigation = navigation(
       [generatePage(PageLayout.TWO_VERTICAL), generatePage(PageLayout.TWO_HORIZONTAL)],
       {
+        eventBus,
         screen,
         controlKeys: true
       }

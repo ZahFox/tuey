@@ -1,15 +1,19 @@
 import { Widgets } from 'blessed'
 
+import { Events } from '../events'
+
+import { EventType } from '../common'
+
 export type PageGenerator = (screen: Widgets.Screen, page: number) => void
 
 export interface NavigationOptions {
+  eventBus: Events.EventBus
   controlKeys?: boolean
   rotate?: boolean
   screen: Widgets.Screen
 }
 
 export interface Navigation {
-  move: () => void
   next: () => void
   prev: () => void
   home: () => void
@@ -19,26 +23,30 @@ export interface Navigation {
 
 export function navigation(pages: PageGenerator[], options: NavigationOptions): Navigation {
   const screen = options.screen
-  let currPage = 0
+  let currentPage = 0
+  let lastPage = currentPage
 
   const move = () => {
     let i = screen.children.length
     while (i--) screen.children[i].detach()
 
-    pages[currPage](screen, currPage)
+    pages[currentPage](screen, currentPage)
 
     screen.render()
+
+    options.eventBus.publish({ type: EventType.NAVIGATION_PAGE_CHANGED, lastPage, currentPage })
   }
 
   const next = () => {
-    currPage++
+    lastPage = currentPage
+    currentPage++
 
-    if (currPage === pages.length) {
+    if (currentPage === pages.length) {
       if (!options.rotate) {
-        currPage--
+        currentPage--
         return
       } else {
-        currPage = 0
+        currentPage = 0
       }
     }
 
@@ -46,14 +54,15 @@ export function navigation(pages: PageGenerator[], options: NavigationOptions): 
   }
 
   const prev = () => {
-    currPage--
+    lastPage = currentPage
+    currentPage--
 
-    if (currPage < 0) {
+    if (currentPage < 0) {
       if (!options.rotate) {
-        currPage++
+        currentPage++
         return
       } else {
-        currPage = pages.length - 1
+        currentPage = pages.length - 1
       }
     }
 
@@ -61,12 +70,12 @@ export function navigation(pages: PageGenerator[], options: NavigationOptions): 
   }
 
   const home = () => {
-    currPage = 0
+    currentPage = 0
     move()
   }
 
   const end = () => {
-    currPage = pages.length - 1
+    currentPage = pages.length - 1
     move()
   }
 
@@ -84,7 +93,6 @@ export function navigation(pages: PageGenerator[], options: NavigationOptions): 
   }
 
   return {
-    move,
     next,
     prev,
     home,

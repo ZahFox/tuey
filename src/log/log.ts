@@ -38,14 +38,6 @@ export namespace Log {
       ]
     })
 
-    if (process.env.NODE_ENV !== 'production') {
-      logger.add(
-        new transports.Console({
-          format: format.combine(format.colorize(), format.simple())
-        })
-      )
-    }
-
     return {
       error: (message: string) => {
         logger.log({
