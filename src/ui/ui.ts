@@ -3,6 +3,7 @@ import { Widgets } from 'blessed'
 import * as contrib from 'blessed-contrib'
 
 import { defaultBoxStyle } from './defaults'
+import { navigation, Navigation } from './navigation'
 
 export namespace UI {
   enum PageLayout {
@@ -38,34 +39,35 @@ export namespace UI {
 
     screen.title = 'tuey'
 
-    const carousel = new (contrib as any).carousel(
+    const uiNavigation: Navigation = navigation(
       [generatePage(PageLayout.TWO_VERTICAL), generatePage(PageLayout.TWO_HORIZONTAL)],
       {
         screen,
-        interval: 0,
         controlKeys: true
       }
     )
 
-    carousel.start()
+    uiNavigation.enable()
   }
 
   function generatePage(layout: PageLayout) {
     switch (layout) {
       case PageLayout.TWO_VERTICAL:
-        return (screen: Widgets.Screen) => {
+        return (screen: Widgets.Screen, page: number) => {
           const grid = new contrib.grid({ rows: 12, cols: 12, screen })
 
-          grid.set(0, 0, 6, 12, blessed.box, {
+          const topBox = grid.set(0, 0, 6, 12, blessed.box, {
             parent: screen,
             content: 'Top',
             style: defaultBoxStyle
           })
 
+          topBox.focus()
+
           grid.set(6, 0, 6, 12, blessed.box, { parent: screen, content: 'Bottom', style: defaultBoxStyle })
         }
       case PageLayout.TWO_HORIZONTAL:
-        return (screen: Widgets.Screen) => {
+        return (screen: Widgets.Screen, page: number) => {
           const grid = new contrib.grid({ rows: 12, cols: 12, screen })
           grid.set(0, 0, 12, 6, blessed.box, { parent: screen, content: 'Left', style: defaultBoxStyle })
           grid.set(0, 6, 12, 6, blessed.box, { parent: screen, content: 'Right', style: defaultBoxStyle })
