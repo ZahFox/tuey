@@ -1,14 +1,10 @@
 import * as blessed from 'blessed'
 import { Widgets } from 'blessed'
 import * as contrib from 'blessed-contrib'
-import { resolve } from 'path'
 
 import { defaultBoxStyle } from './defaults'
 
 export namespace UI {
-  const CURRENT_DIR = resolve(__dirname)
-  const LOG_FILE = `${CURRENT_DIR}/../.logs/uilogs.txt`
-
   enum PageLayout {
     TWO_VERTICAL,
     TWO_HORIZONTAL
