@@ -1,1 +1,3 @@
-console.log('hello world')
+import { UI } from './ui'
+
+UI.init()
