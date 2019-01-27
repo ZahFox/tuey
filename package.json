@@ -32,10 +32,13 @@
   "author": "William McCullough",
   "license": "MIT",
   "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.10",
     "commander": "^2.19.0",
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {
+    "@types/blessed": "^0.1.10",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
