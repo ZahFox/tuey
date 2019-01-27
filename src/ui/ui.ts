@@ -16,14 +16,21 @@ export namespace UI {
     }
   }
 
-  export function init() {
+  export interface UIOptions {
+    log?: (message: string) => void
+  }
+
+  export function init({ log }: UIOptions) {
+    if (!log) {
+      log = () => {}
+    }
+
     const screen = blessed.screen({
       autoPadding: true,
-      smartCSR: true,
-      dump: LOG_FILE
+      smartCSR: true
     })
 
-    screen.log('Screen Initialized')
+    log('Screen Initialized')
 
     screen.key(['escape', 'q', 'C-c'], (ch, key) => {
       return process.exit(0)

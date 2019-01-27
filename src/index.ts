@@ -1,3 +1,6 @@
+import { Log } from './log'
 import { UI } from './ui'
 
-UI.init()
+const { info }: Log.Logger = Log.init()
+
+UI.init({ log: info })
