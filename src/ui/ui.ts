@@ -25,7 +25,7 @@ export namespace UI {
     log?: (message: string) => void
   }
 
-  export function init({ eventBus }: UIOptions) {
+  export async function init({ eventBus }: UIOptions) {
     const screen = blessed.screen({
       autoPadding: true,
       smartCSR: true

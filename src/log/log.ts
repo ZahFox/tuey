@@ -1,9 +1,17 @@
 import { resolve } from 'path'
 import { createLogger, format, transports, Logger as WinstonLogger } from 'winston'
+import { ensureDirExists } from '../common'
 
 export namespace Log {
+  export class LogException extends Error {
+    public constructor(message: string) {
+      super(message)
+    }
+  }
+
   const CURRENT_DIR = resolve(__dirname)
-  const LOG_FILE = `${CURRENT_DIR}/../.logs/tuey.log`
+  const LOG_DIR = `${CURRENT_DIR}/../.logs`
+  const LOG_FILE = `${LOG_DIR}/tuey.log`
 
   export enum LogLevel {
     ERROR = 'error',
@@ -21,54 +29,60 @@ export namespace Log {
     verbose: (message: string) => void
   }
 
-  export function init(): Logger {
-    const logger: WinstonLogger = createLogger({
-      level: 'info',
-      format: format.combine(
-        format.timestamp({
-          format: 'YYYY-MM-DD HH:mm:ss'
-        }),
-        format.errors({ stack: true }),
-        format.splat(),
-        format.json()
-      ),
-      transports: [
-        new transports.File({ filename: LOG_FILE, level: 'error' }),
-        new transports.File({ filename: LOG_FILE })
-      ]
-    })
+  export async function init(): Promise<Logger> {
+    try {
+      await ensureDirExists(LOG_DIR)
 
-    return {
-      error: (message: string) => {
-        logger.log({
-          level: LogLevel.ERROR,
-          message
-        })
-      },
-      warn: (message: string) => {
-        logger.log({
-          level: LogLevel.WARN,
-          message
-        })
-      },
-      info: (message: string) => {
-        logger.log({
-          level: LogLevel.INFO,
-          message
-        })
-      },
-      debug: (message: string) => {
-        logger.log({
-          level: LogLevel.DEBUG,
-          message
-        })
-      },
-      verbose: (message: string) => {
-        logger.log({
-          level: LogLevel.VERBOSE,
-          message
-        })
+      const logger: WinstonLogger = createLogger({
+        level: 'info',
+        format: format.combine(
+          format.timestamp({
+            format: 'YYYY-MM-DD HH:mm:ss'
+          }),
+          format.errors({ stack: true }),
+          format.splat(),
+          format.json()
+        ),
+        transports: [
+          new transports.File({ filename: LOG_FILE, level: 'error' }),
+          new transports.File({ filename: LOG_FILE })
+        ]
+      })
+
+      return {
+        error: (message: string) => {
+          logger.log({
+            level: LogLevel.ERROR,
+            message
+          })
+        },
+        warn: (message: string) => {
+          logger.log({
+            level: LogLevel.WARN,
+            message
+          })
+        },
+        info: (message: string) => {
+          logger.log({
+            level: LogLevel.INFO,
+            message
+          })
+        },
+        debug: (message: string) => {
+          logger.log({
+            level: LogLevel.DEBUG,
+            message
+          })
+        },
+        verbose: (message: string) => {
+          logger.log({
+            level: LogLevel.VERBOSE,
+            message
+          })
+        }
       }
+    } catch (e) {
+      throw new LogException(e.message)
     }
   }
 }
