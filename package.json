@@ -48,7 +48,6 @@
     "@types/blessed": "^0.1.10",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.13",
-    "@types/keypress": "^2.0.30",
     "@types/node": "^10.12.18",
     "@types/reflect-metadata": "^0.1.0",
     "@types/winston": "^2.4.4",

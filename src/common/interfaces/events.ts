@@ -13,6 +13,14 @@ export enum EventType {
   SCREEN_INITIALIZED
 }
 
+export interface Key {
+  name: string
+  ctrl: boolean
+  meta: boolean
+  shift: boolean
+  sequence: string
+}
+
 export interface EventBase {
   type: EventType
 }
@@ -25,7 +33,7 @@ export interface NoneEvent extends EventBase {
 
 export interface KeyPressedEvent extends EventBase {
   type: EventType.KEY_PRESSED
-  key: string
+  key: Key
 }
 
 export interface KeyReleasedEvent extends EventBase {

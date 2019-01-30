@@ -1,8 +1,9 @@
 import 'reflect-metadata'
 import { Subject } from 'rxjs'
 
-import { Bus } from './bus'
 import { Event, EventType } from '../common'
+import { Bus } from './bus'
+import { bindToInput } from './input'
 export namespace Events {
   export const EVENT_HANDLER_METADATA = Symbol()
 
@@ -31,6 +32,7 @@ export namespace Events {
     public constructor() {
       super()
       this.streams = new Map()
+      bindToInput(this)
     }
 
     public publish<T extends Event>(event: T): void {
