@@ -21,9 +21,9 @@ async function init() {
       const { key } = event
 
       if (key) {
-        info(`${key.name} ${key.ctrl} ${key.meta} ${key.shift} ${key.sequence}`)
+        info(`${key.name} {CTRL-${key.ctrl}} {META-${key.meta}} {SHIFT-${key.shift}} {${key.sequence}}`)
       } else {
-        warn(JSON.stringify(event))
+        warn('A key press was detected with no key data')
       }
     }
   )
@@ -31,8 +31,7 @@ async function init() {
   const mouseButtonPressedEventHandler = Events.EventsHandler<MouseButtonPressedEvent>(
     EventType.MOUSE_BUTTON_PRESSED,
     ({ button }: MouseButtonPressedEvent) => {
-      info('DERRP')
-      info(`${button}`)
+      info(`Mouse button pressed ${button}`)
     }
   )
 
