@@ -11,14 +11,20 @@ import {
 } from './common'
 
 async function init() {
-  const { info }: Log.Logger = await Log.init()
+  const { info, warn }: Log.Logger = await Log.init()
 
   const eventBus: Events.EventBus = new Events.EventBus()
 
   const keyPressedEventHandler = Events.EventsHandler<KeyPressedEvent>(
     EventType.KEY_PRESSED,
-    ({ key }: KeyPressedEvent) => {
-      info(`${key.name} ${key.ctrl} ${key.meta} ${key.shift} ${key.sequence}`)
+    (event: KeyPressedEvent) => {
+      const { key } = event
+
+      if (key) {
+        info(`${key.name} ${key.ctrl} ${key.meta} ${key.shift} ${key.sequence}`)
+      } else {
+        warn(JSON.stringify(event))
+      }
     }
   )
 
