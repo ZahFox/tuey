@@ -8,6 +8,9 @@ export enum EventType {
   MOUSE_MOVED,
   MOUSE_SCROLLED,
 
+  /* ~~~ Infrastructure Events ~~~ */
+  MODULE_INITIALIZED,
+
   /* ~~~ UI Events ~~~ */
   NAVIGATION_PAGE_CHANGED,
   SCREEN_INITIALIZED
@@ -63,6 +66,12 @@ export interface MouseScrolledEvent extends EventBase {
   yOffset: number
 }
 
+/* ~~~ Infrastructure Events ~~~ */
+export interface ModuleInitializedEvent extends EventBase {
+  type: EventType.MODULE_INITIALIZED
+  name: string
+}
+
 /* ~~~ UI Events ~~~ */
 
 export interface NavigationPageChangedEvent extends EventBase {
@@ -83,5 +92,6 @@ export type Event =
   | MouseButtonReleasedEvent
   | MouseMovedEvent
   | MouseScrolledEvent
+  | ModuleInitializedEvent
   | NavigationPageChangedEvent
   | ScreenInitializedEvent

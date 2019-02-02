@@ -22,7 +22,6 @@ export namespace UI {
 
   export interface UIOptions {
     eventBus: Events.EventBus
-    log?: (message: string) => void
   }
 
   export async function init({ eventBus }: UIOptions) {
@@ -49,6 +48,7 @@ export namespace UI {
     )
 
     uiNavigation.enable()
+    eventBus.publish({ type: EventType.MODULE_INITIALIZED, name: 'ui' })
   }
 
   function generatePage(layout: PageLayout) {

@@ -9,3 +9,4 @@ export interface JsonArray extends Array<string | number | boolean | null | Json
 export type Json = JsonMap | JsonArray | string | number | boolean | null
 
 export * from './events'
+export * from './input'

@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import { createLogger, format, transports, Logger as WinstonLogger } from 'winston'
+
 import { ensureDirExists } from '../common'
 
 export namespace Log {
@@ -29,7 +30,9 @@ export namespace Log {
     verbose: (message: string) => void
   }
 
-  export async function init(): Promise<Logger> {
+  export interface LogOptions {}
+
+  export async function init(options: LogOptions): Promise<Logger> {
     try {
       await ensureDirExists(LOG_DIR)
 
