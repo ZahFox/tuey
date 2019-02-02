@@ -42,7 +42,7 @@ function emitKeys(stream: any, bytes: any, eventBus: Events.EventBus) {
     }
   }
 
-  if (isMouse(bytes, eventBus)) return
+  if (isMouse(bytes)) return
 
   let buffer: any = []
   let match
@@ -392,7 +392,7 @@ function emitKeys(stream: any, bytes: any, eventBus: Events.EventBus) {
   })
 }
 
-function isMouse(s: any, eventBus: Events.EventBus) {
+function isMouse(s: any) {
   const isMouseInput =
     /\x1b\[M/.test(s) ||
     /\x1b\[M([\x00\u0020-\uffff]{3})/.test(s) ||
@@ -401,10 +401,6 @@ function isMouse(s: any, eventBus: Events.EventBus) {
     /\x1b\[<(\d+;\d+;\d+;\d+)&w/.test(s) ||
     /\x1b\[24([0135])~\[(\d+),(\d+)\]\r/.test(s) ||
     /\x1b\[(O|I)/.test(s)
-
-  if (isMouseInput) {
-    eventBus.publish({ type: EventType.MOUSE_BUTTON_PRESSED, button: 1 })
-  }
 
   return isMouseInput
 }
